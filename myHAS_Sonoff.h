@@ -1,5 +1,5 @@
-#ifndef Config_PriseSonoff_h
-#define Config_PriseSonoff_h
+#ifndef myHAS_Sonoff
+#define myHAS_Sonoff
 
 //Comment for not having serial trace (prod)
 //#define _DEBUG_
