@@ -5,7 +5,7 @@
 //Les prises paires ont un capteur de temperature, les impaires n'en ont pas
 #define PRISE_NB 4
 
-#include "Config_PriseSonoff.h"
+#include "myHAS_Sonoff.h"
 #include <ESP8266WiFi.h>
 
 #ifdef ACTIVATE_EXTENDER
