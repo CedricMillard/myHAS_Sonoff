@@ -139,7 +139,7 @@ void setWifiAP()
   IPAddress gateway(192,168,0,1);
   IPAddress subnet(255,255,255,0);
   WiFi.softAPConfig(local_ip, gateway, subnet);
-  WiFi.softAP("MyHAS", "12345678");
+  WiFi.softAP("myHAS", "12345678");
 }
 
 void connectWifi(unsigned long iTimeOut = -1)
