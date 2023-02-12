@@ -2,7 +2,7 @@
 #define myHAS_Sonoff
 
 //Comment for not having serial trace (prod)
-//#define _DEBUG_
+#define _DEBUG_
 
 //Uncomment for using socket as wifi extender
 //#define ACTIVATE_EXTENDER
