@@ -3,7 +3,7 @@
  */
 
 //Les prises paires ont un capteur de temperature, les impaires n'en ont pas
-#define PRISE_NB 4
+#define PRISE_NB 1
 
 #include "myHAS_Sonoff.h"
 #include <ESP8266WiFi.h>
@@ -151,7 +151,8 @@ void connectWifi(unsigned long iTimeOut = -1)
         WiFi.mode(WIFI_STA);
         WiFi.begin(mySettings->getWifiSSID(), mySettings->getWifiPWD());
 #ifdef _DEBUG_  
-        Serial.print("Connecting to WiFi");
+        Serial.print("Connecting to WiFi ");
+        Serial.print(mySettings->getWifiSSID());
 #endif 
         unsigned long currentMillis = millis();
         while (WiFi.status() != WL_CONNECTED && ((unsigned long)(millis()-currentMillis)<iTimeOut || iTimeOut==-1) )
@@ -190,8 +191,6 @@ void setup()
   Serial.begin(115200);
   blinkOnce();
   myEnv->setLog(myLog);
-  mySettings->readSettingsFile();
-  
   String wifiList = "";
   int nbNetworks = WiFi.scanNetworks();
  
@@ -238,7 +237,7 @@ Serial.println(WiFi.localIP());
       else if (error == OTA_END_ERROR) Serial.println("End Failed");
     });
   ArduinoOTA.setHostname(OTA_NAME);
-  ArduinoOTA.setPassword(mySettings->getOTAPWD().c_str());
+  ArduinoOTA.setPassword(mySettings->getOTAPWD());
   ArduinoOTA.begin();
     
   //initialize MQTT clients
@@ -270,7 +269,7 @@ Serial.println(WiFi.localIP());
   pWebPage->aSensors.add(tempSensor, tempSensor->Id);
 #endif
   pWebPage->setTitle(String(myPrise->Id));
-  attachInterrupt(digitalPinToInterrupt(0), onPressButton, FALLING);
+  attachInterrupt(digitalPinToInterrupt(0), onPressButton, RISING);
   }
   blinkOnce();
 }
@@ -405,7 +404,6 @@ Serial.printf("Param %d name = %s value = %s\n", i, paramName.c_str(), paramValu
       }
 #endif      
     }
-    //request->send_P(200, "text/html", getIndexHTML().c_str());
     request->redirect("/");
   });
 
@@ -422,7 +420,7 @@ Serial.printf("Param %d name = %s value = %s\n", i, paramName.c_str(), paramValu
     mySettings->setOTA(request->getParam("otaPWD", true)->value());
     mySettings->saveSettings();
     request->send_P(200, "text/html", "Restarting...");
-    delay(2000);
+    delay(5000);
     request->redirect("/");
     delay(500);
     ESP.restart();
