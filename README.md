@@ -7,3 +7,4 @@ Needed Libraries:
 - OneWire https://github.com/PaulStoffregen/OneWire
 - ArrayCed https://github.com/CedricMillard/ArrayCed
 - myHASLibrary https://github.com/CedricMillard/myHAS_Library
+- ArduinoJson https://arduinojson.org/
