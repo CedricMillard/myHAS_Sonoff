@@ -3,7 +3,7 @@
  */
 
 //Les prises paires ont un capteur de temperature, les impaires n'en ont pas
-#define PRISE_NB 1
+#define PRISE_NB 4
 
 #include "myHAS_Sonoff.h"
 #include <ESP8266WiFi.h>
@@ -302,8 +302,9 @@ void initiatlizeWebServer()
     if(wifiAP) request->redirect("/settings");
     else
     {
-      String sIndexPage = pWebPage->getIndexHTML();
-      request->send_P(200, "text/html", sIndexPage.c_str());
+      //String sIndexPage = pWebPage->getIndexHTML();
+      //request->send_P(200, "text/html", sIndexPage.c_str());
+      request->send(SPIFFS, pWebPage->getIndexHTML_file(), "text/html");
     }
   });
 
@@ -319,7 +320,8 @@ void initiatlizeWebServer()
   //Click on edit rules
   server.on("/rules", HTTP_GET, [](AsyncWebServerRequest *request){
     int iID = request->getParam("ID")->value().toInt();
-    request->send_P(200, "text/html", pWebPage->getRulesHTML(iID).c_str());
+    //request->send_P(200, "text/html", pWebPage->getRulesHTML(iID).c_str());
+    request->send(SPIFFS, pWebPage->getRulesHTML_file(iID), "text/html");
   });
 
   server.on("/saveRules", HTTP_POST, [](AsyncWebServerRequest *request){
