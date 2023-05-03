@@ -329,6 +329,7 @@ void initiatlizeWebServer()
     int iID = request->getParam("ID", true)->value().toInt();
     myPrise->jsonToRules(request->getParam("output", true)->value());
     myPrise->publishRules();
+    myPrise->stopBlink();
     
     request->redirect("/");
   });
